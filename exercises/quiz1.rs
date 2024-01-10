@@ -13,12 +13,20 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
-
 // Put your function here!
 // fn calculate_price_of_apples {
 
 // Don't modify this function!
+
+fn calculate_price_of_apples(number: usize) -> usize {
+    match number < 40 {
+        true => {number * 2},
+        false => {number * 1},
+    }
+}
+
+
+
 #[test]
 fn verify_test() {
     let price1 = calculate_price_of_apples(35);
