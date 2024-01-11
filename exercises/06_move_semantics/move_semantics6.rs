@@ -17,7 +17,7 @@ fn main() {
 
 // Should not take ownership
 fn get_char(data: String) -> char {
-    data.chars().last().unwrap()
+    &data.chars().last().unwrap()
 }
 
 // Should take ownership
