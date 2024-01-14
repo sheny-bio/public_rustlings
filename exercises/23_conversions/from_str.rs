@@ -31,18 +31,17 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
 
 // Steps:
-// 1. If the length of the provided string is 0, an error should be returned
-// 2. Split the given string on the commas present in it
-// 3. Only 2 elements should be returned from the split, otherwise return an
-//    error
-// 4. Extract the first element from the split operation and use it as the name
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age with something like `"4".parse::<usize>()`
-// 6. If while extracting the name and the age something goes wrong, an error
-//    should be returned
+// 1.如果提供的字符串的长度为 0，则应返回错误
+// 2.将给定的字符串拆分到其中存在的逗号上
+// 3.拆分中只应返回 2 个元素，否则返回
+// 错误
+// 4.从拆分操作中提取第一个元素并将其用作名称
+// 5.从拆分操作中提取另一个元素，并将其解析为
+// 'usize' 作为年龄，类似于 '“4”.parse：：<usize>（）'
+// 6.如果在提取名称和年龄时出现问题，则会出现错误
+// 应返回
 // If everything goes well, then return a Result of a Person object
 //
 // As an aside: `Box<dyn Error>` implements `From<&'_ str>`. This means that if
@@ -52,6 +51,32 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+
+        // .如果提供的字符串的长度为 0，则应返回错误
+        if s.is_empty() {
+            return Err(ParsePersonError::Empty);
+        }
+
+        let parts: Vec<&str> = s.split(',').collect();
+
+        if parts.len() != 2 {
+            return Err(ParsePersonError::BadLen);
+        };
+
+        let name = parts[0].trim();
+        if name.is_empty() {
+            return Err(ParsePersonError::NoName);
+        }
+
+        let age = parts[1].trim().parse::<usize>();
+        match age {
+            Ok(age) => Ok(Person { name: name.to_string(), age }),
+            Err(e) => Err(ParsePersonError::ParseInt(e)),
+        }
+
+
+
+
     }
 }
 
